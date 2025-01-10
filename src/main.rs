@@ -2,19 +2,19 @@ mod linked_list;
 mod stack;
 mod queue;
 mod binary_tree;
+mod binary_search;
+mod sorting;
+use sorting::*;
+
+use binary_search::binary_search;
 use binary_tree::*;
-use linked_list::LinkedList;
 fn main() {
-    let mut tree = Tree::new();
-    tree.insert(1);
-    tree.insert(4);
-    tree.insert(3);
-    tree.insert(5);
-    tree.insert(7);
-    tree.insert(2);
-    tree.insert(10);
-    tree.insert(15);
+    let sorted_array:Vec<i32> = vec![1,2,3,4,5,6,7,8,9,10];
+    let mut unsorted_array:Vec<i32> = vec![39, 62, 58, 48, 53, 93, 41, 2, 95, 40, 77, 34, 63, 74, 86, 22, 41, 41, 98, 1];
+    let target = 7;
+    bubble_sort(unsorted_array.as_mut());
+
+    println!("{:?}", unsorted_array);
 
 
-    println!("{:#?}", tree);
 }

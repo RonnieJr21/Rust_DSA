@@ -1,3 +1,4 @@
+use crate::queue::*;
 #[derive(Debug)]
 struct Node<T> {
     data: T,
@@ -5,14 +6,10 @@ struct Node<T> {
     right: Option<Box<Node<T>>>,
 }
 
-
-
 impl<T> Node<T> {
     fn new(data: T) -> Self {
         Node {data, left:None,right:None}
     }
-
-
 }
 #[derive(Debug)]
 pub struct Tree<T> {
@@ -32,22 +29,21 @@ impl<T:PartialOrd> Tree<T> {
         }
 
     }
-
-    fn insert_recurse(node: &mut Node<T>, data:T) {
-        if data < node.data {
-            if let Some(ref mut left) = node.left {
-                Self::insert_recurse(left, data);
-            }
-            else{
+    fn insert_recurse(node: &mut Node<T>, data: T) {
+        let mut queue = Queue::new();
+        queue.enqueue(node);
+        while let Some(node) = queue.dequeue() {
+            if node.left.is_none() {
                 node.left = Some(Box::new(Node::new(data)));
+                break;
+            } else {
+                queue.enqueue(node.left.as_mut().unwrap());
             }
-        }
-        else if data > node.data {
-            if let Some(ref mut right) = node.right {
-                Self::insert_recurse(right, data);
-            }
-            else{
+            if node.right.is_none(){
                 node.right = Some(Box::new(Node::new(data)));
+                break;
+            } else {
+                queue.enqueue(node.right.as_mut().unwrap());
             }
         }
     }
